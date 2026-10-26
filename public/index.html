@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hospital Queue and Triage Management System using Factory, Facade, and State Patterns for clinical staff">
+  <title>Hospital Queue & Triage Management System</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="hospital-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+          </svg>
+          MedTriage QMS
+        </div>
+        <div class="hospital-sub">Clinical Staff Operations</div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a class="nav-item active" data-view="dashboard" id="nav-dashboard">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect width="7" height="9" x="3" y="3" rx="1"/>
+            <rect width="7" height="5" x="14" y="3" rx="1"/>
+            <rect width="7" height="9" x="14" y="12" rx="1"/>
+            <rect width="7" height="5" x="3" y="16" rx="1"/>
+          </svg>
+          Dashboard Overview
+        </a>
+
+        <a class="nav-item" data-view="triage" id="nav-triage">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+          </svg>
+          Clinical Triage & Intake
+        </a>
+
+        <a class="nav-item" data-view="queue" id="nav-queue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <line x1="8" x2="21" y1="6" y2="6"/>
+            <line x1="8" x2="21" y1="12" y2="12"/>
+            <line x1="8" x2="21" y1="18" y2="18"/>
+            <line x1="3" x2="3.01" y1="6" y2="6"/>
+            <line x1="3" x2="3.01" y1="12" y2="12"/>
+            <line x1="3" x2="3.01" y1="18" y2="18"/>
+          </svg>
+          Priority Queue
+        </a>
+
+        <a class="nav-item" data-view="consultation" id="nav-consultation">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/>
+            <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/>
+          </svg>
+          Consultation Desk
+        </a>
+
+        <a class="nav-item" data-view="resources" id="nav-resources">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M2 4v16"/>
+            <path d="M2 8h18a2 2 0 0 1 2 2v10"/>
+            <path d="M2 17h20"/>
+            <path d="M6 8v9"/>
+          </svg>
+          Doctors & Beds
+        </a>
+
+        <a class="nav-item" data-view="history" id="nav-history">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Visit History
+        </a>
+
+        <a class="nav-item" data-view="billing" id="nav-billing">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+            <line x1="7" y1="15" x2="7.01" y2="15"/>
+            <line x1="11" y1="15" x2="13" y2="15"/>
+          </svg>
+          Billing & Invoices
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div>
+          <span class="system-status-indicator"></span>
+          <span>System Online</span>
+        </div>
+        <span id="current-time">--:--</span>
+      </div>
+    </aside>
+
+    <!-- Main Workspace -->
+    <main class="main-wrapper">
+      <header class="top-bar">
+        <h1 class="page-heading" id="top-page-title">Dashboard Overview</h1>
+        <div class="top-actions">
+          <button class="btn btn-secondary btn-sm" id="btn-refresh-global">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 4px;">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+              <path d="M3 3v5h5"/>
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+              <path d="M16 21h5v-5"/>
+            </svg>
+            Refresh
+          </button>
+        </div>
+      </header>
+
+      <div class="content-area">
+        <!-- Notification Banner Area -->
+        <div id="notification-banner" style="display: none;"></div>
+
+        <!-- ============================================== -->
+        <!-- VIEW 1: DASHBOARD OVERVIEW                     -->
+        <!-- ============================================== -->
+        <section class="view-section active" id="view-dashboard">
+          <div class="metrics-grid">
+            <div class="metric-card primary-card">
+              <span class="metric-label">Active Visits</span>
+              <span class="metric-value" id="stat-active-visits">0</span>
+            </div>
+
+            <div class="metric-card urgent-card">
+              <span class="metric-label">Awaiting Triage</span>
+              <span class="metric-value" id="stat-awaiting-triage">0</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Waiting in Queue</span>
+              <span class="metric-value" id="stat-waiting-consult">0</span>
+            </div>
+
+            <div class="metric-card success-card">
+              <span class="metric-label">In Consultation</span>
+              <span class="metric-value" id="stat-in-consult">0</span>
+            </div>
+
+            <div class="metric-card alert-card">
+              <span class="metric-label">Emergency (Priority 1)</span>
+              <span class="metric-value" id="stat-emergency">0</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Available Beds</span>
+              <span class="metric-value" id="stat-beds-avail">0 / 0</span>
+            </div>
+
+            <div class="metric-card">
+              <span class="metric-label">Available Doctors</span>
+              <span class="metric-value" id="stat-doctors-avail">0 / 0</span>
+            </div>
+          </div>
+
+          <div class="two-col-grid">
+            <!-- Active Queue Preview -->
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Active Priority Queue Preview</h2>
+                <button class="btn btn-secondary btn-sm" onclick="switchView('queue')">View Full Queue</button>
+              </div>
+              <div class="panel-body table-wrapper">
+                <table id="dash-queue-table">
+                  <thead>
+                    <tr>
+                      <th>Priority</th>
+                      <th>Patient</th>
+                      <th>Chief Complaint</th>
+                      <th>Wait</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="5" class="empty-placeholder">No patients currently waiting in queue.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Doctor & Bed Quick Status -->
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Doctor On-Call & Ward Bed Capacity</h2>
+                <button class="btn btn-secondary btn-sm" onclick="switchView('resources')">Manage Resources</button>
+              </div>
+              <div class="panel-body">
+                <h3 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Doctor Roster</h3>
+                <div class="table-wrapper" style="margin-bottom: 16px;">
+                  <table id="dash-doctor-table">
+                    <thead>
+                      <tr>
+                        <th>Doctor</th>
+                        <th>Specialty</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+
+                <h3 style="font-size: 13px; font-weight: 600; margin-bottom: 8px;">Inpatient Wards</h3>
+                <div class="table-wrapper">
+                  <table id="dash-bed-summary-table">
+                    <thead>
+                      <tr>
+                        <th>Ward</th>
+                        <th>Available Beds</th>
+                        <th>Total Beds</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- UNIFIED VIEW: PATIENT INTAKE & CLINICAL TRIAGE -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-triage">
+          <div class="panel" style="max-width: 880px; margin: 0 auto;">
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h2 class="panel-title" id="triage-panel-title">Patient Intake & Clinical Triage</h2>
+                <p style="font-size: 12px; color: var(--text-muted); margin-top: 2px;">Register new patient, evaluate clinical vitals via Factory Pattern, and place directly in Priority Queue.</p>
+              </div>
+              <span class="badge badge-p3">Direct Priority Queue Placement</span>
+            </div>
+            <div class="panel-body">
+              <form id="form-triage">
+                <!-- Section 1: Patient Information -->
+                <div id="section-patient-demographics">
+                  <h3 style="font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+                    <span style="display: inline-block; width: 6px; height: 6px; background: var(--primary); border-radius: 50%;"></span>
+                    Patient Information
+                  </h3>
+                  <div class="form-grid">
+                    <div class="form-group full-width">
+                      <label for="triage-name">Full Name <span class="required">*</span></label>
+                      <input type="text" id="triage-name" required placeholder="e.g. Eleanor Vance">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="triage-age">Age <span class="required">*</span></label>
+                      <input type="number" id="triage-age" required min="0" max="130" placeholder="e.g. 45">
+                    </div>
+
+                    <div class="form-group">
+                      <label for="triage-gender">Gender</label>
+                      <select id="triage-gender">
+                        <option value="Female">Female</option>
+                        <option value="Male">Male</option>
+                        <option value="Other">Other</option>
+                      </select>
+                    </div>
+
+                    <div class="form-group full-width">
+                      <label for="triage-contact">Contact Number</label>
+                      <input type="text" id="triage-contact" placeholder="e.g. 9876543210 (Optional)">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Section 2: Clinical Complaint & Vitals -->
+                <h3 style="font-size: 13px; font-weight: 600; margin: 20px 0 12px 0; border-top: 1px solid var(--border-color); padding-top: 14px; color: var(--text-main); display: flex; align-items: center; gap: 8px;">
+                  <span style="display: inline-block; width: 6px; height: 6px; background: var(--accent-urgent, #f59e0b); border-radius: 50%;"></span>
+                  Clinical Vitals & Assessment
+                </h3>
+
+                <div class="form-group full-width">
+                  <label for="triage-complaint">Chief Complaint / Symptoms <span class="required">*</span></label>
+                  <input type="text" id="triage-complaint" required placeholder="e.g. Severe chest pain, shortness of breath, asthma attack">
+                </div>
+
+                <div class="form-grid">
+                  <div class="form-group">
+                    <label for="triage-spo2">Oxygen Saturation (SpO2 %)</label>
+                    <input type="number" id="triage-spo2" min="40" max="100" placeholder="e.g. 98">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="triage-hr">Heart Rate (bpm)</label>
+                    <input type="number" id="triage-hr" placeholder="e.g. 82">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="triage-bp">Blood Pressure (mmHg)</label>
+                    <input type="text" id="triage-bp" placeholder="e.g. 120/80">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="triage-temp">Temperature (°C)</label>
+                    <input type="number" step="0.1" id="triage-temp" placeholder="e.g. 37.0">
+                  </div>
+
+                  <div class="form-group">
+                    <label for="triage-rr">Respiratory Rate (/min)</label>
+                    <input type="number" id="triage-rr" placeholder="e.g. 16">
+                  </div>
+
+                  <div class="form-group">
+                    <label style="display: flex; justify-content: space-between; align-items: center;">
+                      <span>System Triage Assignment</span>
+                      <span id="triage-auto-badge"><span class="badge" style="background: var(--bg-hover); color: var(--text-muted); font-size: 10px;">Awaiting Vitals</span></span>
+                    </label>
+                    <div id="triage-auto-display" style="padding: 8px 12px; border-radius: var(--border-radius); border: 1px solid var(--border-color); background: var(--bg-surface, #fff); min-height: 38px; display: flex; align-items: center; justify-content: space-between; transition: all 0.2s ease;">
+                      <span id="triage-auto-text" style="font-size: 13px; font-weight: 600; color: var(--text-muted);">
+                        Enter vitals to calculate...
+                      </span>
+                    </div>
+                    <input type="hidden" id="triage-category" value="Standard">
+                  </div>
+                </div>
+
+                <div id="triage-live-alerts"></div>
+
+                <!-- Section 3: Automatic Specialist Doctor Allotment -->
+                <div style="margin-top: 20px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <h3 style="font-size: 13px; font-weight: 600; color: var(--text-main); display: flex; align-items: center; gap: 8px; margin: 0;">
+                      <span style="display: inline-block; width: 6px; height: 6px; background: var(--accent-success, #10b981); border-radius: 50%;"></span>
+                      Specialist Department & Doctor Auto-Allotment
+                    </h3>
+                    <button type="button" class="btn btn-secondary btn-sm" id="btn-toggle-roster" style="font-size: 11px; padding: 4px 10px;">
+                      📋 View All Department Doctors
+                    </button>
+                  </div>
+
+                  <div class="form-grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="form-group">
+                      <label style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Target Department</span>
+                        <span id="triage-dept-badge" class="badge" style="background: var(--bg-hover); color: var(--text-muted); font-size: 10px;">Auto-Routing</span>
+                      </label>
+                      <input type="text" id="triage-dept-display" readonly value="General Medicine" style="background: var(--bg-app); font-weight: 600; color: var(--text-main);">
+                    </div>
+
+                    <div class="form-group">
+                      <label style="display: flex; justify-content: space-between; align-items: center;">
+                        <span>Allotted Specialist Doctor</span>
+                        <span id="triage-doctor-badge" class="badge badge-success" style="font-size: 10px;">Auto-Allotted</span>
+                      </label>
+                      <div id="triage-allotted-doctor-box" style="padding: 8px 12px; border-radius: var(--border-radius); border: 1px solid var(--border-color); background: var(--bg-surface, #fff); min-height: 38px; display: flex; align-items: center; justify-content: space-between;">
+                        <span id="triage-allotted-doctor-text" style="font-size: 13px; font-weight: 600; color: var(--text-main);">
+                          Dr. Marcus Vance (General Medicine)
+                        </span>
+                      </div>
+                      <input type="hidden" id="triage-doctor-id" value="DOC-102">
+                    </div>
+                  </div>
+
+                  <!-- Collapsible Full Hospital Doctors List (All 9 Departments) -->
+                  <div id="triage-all-doctors-roster" style="display: none; margin-top: 14px; padding: 14px; background: var(--bg-app); border: 1px solid var(--border-color); border-radius: var(--border-radius);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                      <span style="font-size: 12px; font-weight: 600; color: var(--text-main);">
+                        🏥 Hospital Doctor Directory (All 9 Departments)
+                      </span>
+                      <span style="font-size: 11px; color: var(--text-muted);">
+                        Patient is auto-allotted based on condition, or click any doctor to select
+                      </span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px;" id="triage-roster-cards">
+                      <!-- Rendered dynamically -->
+                    </div>
+                  </div>
+                </div>
+
+                <div style="margin-top: 20px; display: flex; justify-content: flex-end;">
+                  <button type="submit" class="btn btn-primary" id="btn-submit-triage" style="padding: 10px 24px; font-weight: 600;">
+                    Register, Triage & Place in Queue
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 4: PRIORITY QUEUE MANAGEMENT             -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-queue">
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Active Clinical Priority Queue</h2>
+              <div style="display: flex; gap: 8px; align-items: center;">
+                <label for="call-doctor-select" style="margin-bottom: 0; font-size: 12px;">Doctor on Desk:</label>
+                <select id="call-doctor-select" style="width: auto; min-width: 170px;">
+                  <option value="">-- Available Doctor --</option>
+                </select>
+                <button class="btn btn-primary btn-sm" id="btn-call-next">Call Next Eligible Patient</button>
+              </div>
+            </div>
+            <div class="panel-body">
+              <div class="search-wrapper" style="margin-bottom: 14px;">
+                <input type="text" id="queue-filter-input" class="search-input" placeholder="Filter queue by patient name, complaint, or ID...">
+                <select id="queue-status-filter" style="width: 180px;">
+                  <option value="ALL">All Active Statuses</option>
+                  <option value="Waiting">Waiting Only</option>
+                  <option value="Called">Called Only</option>
+                </select>
+              </div>
+
+              <div class="table-wrapper">
+                <table id="priority-queue-table">
+                  <thead>
+                    <tr>
+                      <th>Priority</th>
+                      <th>Patient Name</th>
+                      <th>Age</th>
+                      <th>Chief Complaint</th>
+                      <th>Category</th>
+                      <th>Wait Time</th>
+                      <th>Status</th>
+                      <th>Assigned Doctor</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="9" class="empty-placeholder">Loading priority queue...</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 5: DOCTOR CONSULTATION DESK              -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-consultation">
+          <div class="two-col-grid">
+            <!-- Active Patient in Consultation / Called -->
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Active Patient Consultation</h2>
+                <div style="display: flex; gap: 8px; align-items: center;">
+                  <label for="consult-doctor-desk" style="margin: 0; font-size: 12px;">Consulting Doctor:</label>
+                  <select id="consult-doctor-desk" style="width: auto;">
+                    <option value="">-- Select Attending Doctor --</option>
+                  </select>
+                </div>
+              </div>
+              <div class="panel-body">
+                <div id="consultation-active-panel">
+                  <div class="empty-placeholder">
+                    Please select an attending doctor above or call a patient from the Priority Queue to start a consultation.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Consultation Notes & Outcome Actions -->
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Clinical Notes & Outcome Decision</h2>
+              </div>
+              <div class="panel-body">
+                <form id="form-consultation-outcome">
+                  <input type="hidden" id="consult-visit-id" value="">
+
+                  <div class="form-group">
+                    <label for="consult-notes">Physician Consultation Notes & Treatment Plan <span class="required">*</span></label>
+                    <textarea id="consult-notes" style="min-height: 120px;" placeholder="Diagnostic findings, prescriptions, ordered tests, clinical observations..."></textarea>
+                  </div>
+
+                  <div style="margin-top: 18px; border-top: 1px solid var(--border-color); padding-top: 16px;">
+                    <label style="margin-bottom: 10px;">Select Visit Outcome:</label>
+                    <div style="display: flex; flex-direction: column; gap: 10px;">
+                      <!-- Outcome 1: Complete Outpatient -->
+                      <button type="button" class="btn btn-primary" id="btn-outcome-complete" disabled>
+                        Conclude Outpatient Visit
+                      </button>
+
+                      <!-- Outcome 2: Inpatient Admission -->
+                      <button type="button" class="btn btn-warning" id="btn-open-admission-modal" disabled>
+                        Admit Patient to Bed
+                      </button>
+
+                      <!-- Outcome 3: External Referral -->
+                      <button type="button" class="btn btn-secondary" id="btn-open-referral-modal" disabled>
+                        Refer to Specialist Facility
+                      </button>
+
+                      <!-- PDF Pattern Feature: State Pattern Clinical Escalation Directive -->
+                      <button type="button" class="btn btn-secondary" id="btn-escalate-case" disabled style="margin-top: 4px;">
+                        Evaluate Escalation Directive (State Pattern)
+                      </button>
+                      <div id="escalation-result-banner" style="display: none; padding: 10px 12px; font-size: 12px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); background: var(--bg-app); margin-top: 6px;"></div>
+
+                      <!-- Billing & Tariff Estimate Card (Façade Pattern Subsystem 3) -->
+                      <div id="consultation-billing-box" style="margin-top: 14px; padding: 12px 14px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                          <div style="font-weight: 600; font-size: 13px; color: var(--text-primary); display: flex; align-items: center; gap: 6px;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                              <rect x="2" y="4" width="20" height="16" rx="2"/>
+                              <line x1="2" y1="10" x2="22" y2="10"/>
+                            </svg>
+                            Billing & Tariff Estimate
+                          </div>
+                          <span class="badge badge-standard" id="consult-billing-tag" style="font-size: 11px;">Outpatient Tariff</span>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-secondary); display: flex; flex-direction: column; gap: 4px;">
+                          <div style="display: flex; justify-content: space-between;">
+                            <span>Physician Consultation Fee:</span>
+                            <span style="font-weight: 500; color: var(--text-primary);" id="bill-calc-doc-fee">₹500</span>
+                          </div>
+                          <div style="display: flex; justify-content: space-between;">
+                            <span>Baseline Pharmacy & Supplies:</span>
+                            <span style="font-weight: 500; color: var(--text-primary);" id="bill-calc-pharmacy">₹350</span>
+                          </div>
+                          <div style="display: flex; justify-content: space-between; color: #16a34a;">
+                            <span>Govt / Insurance Subsidy (15%):</span>
+                            <span style="font-weight: 500;" id="bill-calc-subsidy">- ₹128</span>
+                          </div>
+                          <div style="border-top: 1px dashed var(--border-color); margin-top: 4px; padding-top: 6px; display: flex; justify-content: space-between; font-weight: 700; color: var(--primary-color); font-size: 13px;">
+                            <span>Estimated Net Payable:</span>
+                            <span id="bill-calc-net">₹722</span>
+                          </div>
+                        </div>
+                        <div style="margin-top: 8px; font-size: 11px; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between;">
+                          <span>Automated Invoice generated on Visit Conclusion.</span>
+                          <button type="button" class="btn btn-secondary btn-sm" id="btn-quick-view-bill" style="padding: 2px 8px; font-size: 11px;">View Invoices</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 6: DOCTOR & BED MANAGEMENT               -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-resources">
+          <div class="two-col-grid">
+            <!-- Doctor Availability -->
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Physician Roster & Duty Availability</h2>
+              </div>
+              <div class="panel-body table-wrapper">
+                <table id="doctors-manage-table">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Doctor Name</th>
+                      <th>Specialty</th>
+                      <th>Duty Status</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Bed Management -->
+            <div class="panel">
+              <div class="panel-header">
+                <h2 class="panel-title">Inpatient Bed Allocation Matrix</h2>
+              </div>
+              <div class="panel-body table-wrapper">
+                <table id="beds-manage-table">
+                  <thead>
+                    <tr>
+                      <th>Bed ID</th>
+                      <th>Ward</th>
+                      <th>Status</th>
+                      <th>Allocated Visit</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 7: VISIT HISTORY & AUDIT TRAIL           -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-history">
+          <div class="panel">
+            <div class="panel-header">
+              <h2 class="panel-title">Resolved Hospital Visits & Clinical Outcomes</h2>
+            </div>
+            <div class="panel-body">
+              <div class="search-wrapper">
+                <input type="text" id="history-search-input" class="search-input" placeholder="Search by patient name, visit ID, complaint, or outcome...">
+                <button class="btn btn-secondary" id="btn-search-history">Search</button>
+              </div>
+
+              <div class="table-wrapper">
+                <table id="history-table">
+                  <thead>
+                    <tr>
+                      <th>Visit ID</th>
+                      <th>Patient</th>
+                      <th>Complaint</th>
+                      <th>Triage Category</th>
+                      <th>Attending Doctor</th>
+                      <th>Outcome</th>
+                      <th>Registered</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="8" class="empty-placeholder">No resolved visits in history yet.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================== -->
+        <!-- VIEW 7: BILLING & TARIFF MANAGEMENT           -->
+        <!-- ============================================== -->
+        <section class="view-section" id="view-billing">
+          <!-- Metric Cards -->
+          <div class="metrics-grid" style="grid-template-columns: repeat(4, 1fr); margin-bottom: 20px;">
+            <div class="metric-card">
+              <div class="metric-label">Total Invoiced Revenue</div>
+              <div class="metric-value" id="billing-metric-total">₹0</div>
+              <div class="metric-sub" id="billing-metric-bills-count">0 Invoices Issued</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Settled Invoices</div>
+              <div class="metric-value" style="color: #16a34a;" id="billing-metric-settled">0</div>
+              <div class="metric-sub">Paid in full</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Pending Settlement</div>
+              <div class="metric-value" style="color: #ea580c;" id="billing-metric-pending">0</div>
+              <div class="metric-sub">Awaiting desk settlement</div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">Subsidies Disbursed</div>
+              <div class="metric-value" style="color: #0284c7;" id="billing-metric-subsidy">₹0</div>
+              <div class="metric-sub">15% Health Scheme discount</div>
+            </div>
+          </div>
+
+          <!-- Billing Invoices Table Panel -->
+          <div class="panel">
+            <div class="panel-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+              <div>
+                <h2 class="panel-title">Hospital Billing Registry & Official Invoices</h2>
+                <div style="font-size: 12px; color: var(--text-secondary); margin-top: 2px;">
+                  Coordinated via Façade Pattern (Subsystem 3: BillingSystem)
+                </div>
+              </div>
+              <!-- Tariff Badges Quick Reference -->
+              <div style="display: flex; gap: 8px; flex-wrap: wrap; font-size: 11px;">
+                <span class="badge" style="background: #eff6ff; color: #1e40af; border: 1px solid #bfdbfe;">ICU: ₹2,500/day</span>
+                <span class="badge" style="background: #fef2f2; color: #991b1b; border: 1px solid #fecaca;">Emergency: ₹1,200/day</span>
+                <span class="badge" style="background: #f5f3ff; color: #5b21b6; border: 1px solid #ddd6fe;">Private: ₹1,500/day</span>
+                <span class="badge" style="background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0;">General: ₹500/day</span>
+              </div>
+            </div>
+
+            <div class="panel-body">
+              <div class="search-wrapper" style="display: flex; gap: 12px; margin-bottom: 16px;">
+                <input type="text" id="billing-search-input" class="search-input" placeholder="Search invoices by patient name, invoice ID, or visit ID...">
+                <select id="billing-filter-status" style="width: auto; min-width: 140px; padding: 6px 10px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); font-size: 13px;">
+                  <option value="ALL">All Statuses</option>
+                  <option value="Paid">Paid / Settled</option>
+                  <option value="Pending Insurance Settlement">Pending</option>
+                </select>
+                <button class="btn btn-secondary" id="btn-refresh-billing">Refresh</button>
+              </div>
+
+              <div class="table-wrapper">
+                <table id="billing-table">
+                  <thead>
+                    <tr>
+                      <th>Invoice ID</th>
+                      <th>Visit ID</th>
+                      <th>Patient Name</th>
+                      <th>Bill Type</th>
+                      <th>Date Issued</th>
+                      <th>Subtotal</th>
+                      <th>Subsidy</th>
+                      <th>Net Total</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td colspan="10" class="empty-placeholder">No invoices generated yet. Conclude outpatient visits or admit patients to generate bills.</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: Inpatient Bed Admission                 -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-admit">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Inpatient Ward Bed Admission</h3>
+        <button class="modal-close" onclick="closeModal('modal-admit')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-admit">
+          <div class="form-group">
+            <label for="admit-bed-select">Select Available Bed <span class="required">*</span></label>
+            <select id="admit-bed-select" required>
+              <option value="">-- Select Bed --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="admit-duration-days">Estimated Duration of Stay (Days) <span class="required">*</span></label>
+            <input type="number" id="admit-duration-days" min="1" max="90" value="3" required>
+          </div>
+          <div id="modal-admit-tariff-preview" style="margin-bottom: 14px; padding: 10px 12px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 12px;">
+            <div style="font-weight: 600; margin-bottom: 4px; color: var(--text-primary);">Estimated Inpatient Tariff:</div>
+            <div style="display: flex; justify-content: space-between; color: var(--text-secondary); margin-bottom: 2px;">
+              <span>Bed / Ward Charges:</span>
+              <span id="admit-calc-room">3 days × ₹500/day = ₹1,500</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: var(--text-secondary); margin-bottom: 2px;">
+              <span>Doctor Fee & Inpatient Pharmacy:</span>
+              <span>₹850</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #16a34a; margin-bottom: 2px;">
+              <span>Insurance Subsidy (15%):</span>
+              <span id="admit-calc-subsidy">- ₹353</span>
+            </div>
+            <div style="border-top: 1px dashed var(--border-color); margin-top: 4px; padding-top: 4px; display: flex; justify-content: space-between; font-weight: 700; color: var(--primary-color);">
+              <span>Est. Total Payable:</span>
+              <span id="admit-calc-total">₹1,997</span>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="admit-reason">Clinical Reason for Admission</label>
+            <textarea id="admit-reason" placeholder="e.g. Continuous telemetry monitoring, inpatient IV antibiotic therapy"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-admit')">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-admit">Confirm Bed Admission</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: Direct Bed Allocation Matrix Action     -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-direct-admit">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="direct-admit-modal-title">Allocate Bed</h3>
+        <button class="modal-close" onclick="closeModal('modal-direct-admit')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-direct-admit">
+          <input type="hidden" id="direct-admit-bed-id" value="">
+          <div class="form-group">
+            <label for="direct-admit-visit-select">Select Active Patient Visit to Admit <span class="required">*</span></label>
+            <select id="direct-admit-visit-select" required>
+              <option value="">-- Select Patient Visit --</option>
+            </select>
+            <div class="form-help">Eligible active patient visits awaiting or undergoing clinical care.</div>
+          </div>
+          <div class="form-group">
+            <label for="direct-admit-notes">Admission Notes</label>
+            <textarea id="direct-admit-notes" placeholder="Reason for ward bed allocation..."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-direct-admit')">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-direct-admit">Allocate Bed to Patient</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: Patient Referral                        -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-refer">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">External Specialist Referral</h3>
+        <button class="modal-close" onclick="closeModal('modal-refer')">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form id="form-refer">
+          <div class="form-group">
+            <label for="refer-facility">Target Referral Facility / Specialist <span class="required">*</span></label>
+            <input type="text" id="refer-facility" required placeholder="e.g. City Cardiothoracic Institute">
+          </div>
+          <div class="form-group">
+            <label for="refer-reason">Referral Justification <span class="required">*</span></label>
+            <textarea id="refer-reason" required placeholder="e.g. Requires emergency cardiac catheterization and angioplasty."></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-refer')">Cancel</button>
+        <button class="btn btn-primary" id="btn-confirm-refer">Confirm Referral</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: Visit Audit Trail Timeline Details      -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-audit">
+    <div class="modal-content" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title" id="audit-modal-title">Visit Lifecycle Audit Trail</h3>
+        <button class="modal-close" onclick="closeModal('modal-audit')">&times;</button>
+      </div>
+      <div class="modal-body" id="audit-modal-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-audit')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================== -->
+  <!-- MODAL: Official Hospital Invoice & Receipt     -->
+  <!-- ============================================== -->
+  <div class="modal-overlay" id="modal-invoice-receipt">
+    <div class="modal-content" style="max-width: 650px;">
+      <div class="modal-header">
+        <h3 class="modal-title">Official Medical Invoice & Receipt</h3>
+        <button class="modal-close" onclick="closeModal('modal-invoice-receipt')">&times;</button>
+      </div>
+      <div class="modal-body" id="invoice-receipt-printable" style="padding: 20px;">
+        <div style="border-bottom: 2px solid var(--border-color); padding-bottom: 12px; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: flex-start;">
+          <div>
+            <div style="font-size: 18px; font-weight: 800; color: var(--primary-color);">MedTriage Hospital & Trauma Center</div>
+            <div style="font-size: 11px; color: var(--text-secondary); margin-top: 2px;">Clinical Operations & Hospital Tariff System</div>
+            <div style="font-size: 11px; color: var(--text-secondary);">Tax ID / Reg: MED-99482-TN | Emergency Desk</div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 14px; font-weight: 700; color: var(--text-primary);" id="receipt-invoice-id">INV-0000</div>
+            <div style="font-size: 11px; color: var(--text-secondary);" id="receipt-date">--/--/----</div>
+            <span class="badge badge-status-completed" id="receipt-status-badge" style="margin-top: 4px;">Paid</span>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; background: #f8fafc; padding: 10px 14px; border-radius: var(--radius-sm); border: 1px solid var(--border-color); margin-bottom: 16px; font-size: 12px;">
+          <div>
+            <div><strong style="color: var(--text-primary);">Patient Name:</strong> <span id="receipt-patient-name">--</span></div>
+            <div><strong style="color: var(--text-primary);">Patient ID:</strong> <code id="receipt-patient-id">--</code></div>
+            <div><strong style="color: var(--text-primary);">Contact:</strong> <span id="receipt-contact">--</span></div>
+          </div>
+          <div>
+            <div><strong style="color: var(--text-primary);">Visit ID:</strong> <code id="receipt-visit-id">--</code></div>
+            <div><strong style="color: var(--text-primary);">Bill Type:</strong> <span id="receipt-bill-type">--</span></div>
+            <div><strong style="color: var(--text-primary);">Payment Mode:</strong> <span id="receipt-payment-mode">--</span></div>
+          </div>
+        </div>
+
+        <div class="table-wrapper" style="margin-bottom: 16px;">
+          <table style="width: 100%; font-size: 12px;">
+            <thead>
+              <tr style="background: #f1f5f9;">
+                <th style="padding: 8px;">Line Item & Clinical Service</th>
+                <th style="padding: 8px; text-align: center;">Qty / Days</th>
+                <th style="padding: 8px; text-align: right;">Unit Rate</th>
+                <th style="padding: 8px; text-align: right;">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="receipt-items-tbody"></tbody>
+          </table>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+          <div style="width: 250px; font-size: 13px; display: flex; flex-direction: column; gap: 6px;">
+            <div style="display: flex; justify-content: space-between;">
+              <span style="color: var(--text-secondary);">Gross Subtotal:</span>
+              <strong id="receipt-subtotal">₹0</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; color: #16a34a;">
+              <span>Health Subsidy (-15%):</span>
+              <strong id="receipt-subsidy">- ₹0</strong>
+            </div>
+            <div style="border-top: 2px solid var(--border-color); padding-top: 6px; display: flex; justify-content: space-between; font-size: 15px; font-weight: 800; color: var(--primary-color);">
+              <span>Net Amount:</span>
+              <span id="receipt-net-total">₹0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="display: flex; justify-content: space-between;">
+        <button class="btn btn-secondary" onclick="closeModal('modal-invoice-receipt')">Close</button>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary" id="btn-print-receipt">Print Receipt</button>
+          <button class="btn btn-primary" id="btn-settle-receipt" style="display: none;">Mark Settled / Paid</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,317 @@
+{
+  "patients": [
+    {
+      "id": "PAT-1792944603212-603",
+      "name": "Marcus Aurelius",
+      "age": 58,
+      "dob": null,
+      "gender": "Male",
+      "contactNumber": "555-8899",
+      "medicalAlerts": "Hypertension, Prior Stent",
+      "createdAt": "2026-10-25T16:10:03.212Z"
+    },
+    {
+      "id": "PAT-1792945240031-514",
+      "name": "cp",
+      "age": 21,
+      "dob": null,
+      "gender": "Male",
+      "contactNumber": "9515373211",
+      "medicalAlerts": "asthma",
+      "createdAt": "2026-10-25T16:20:40.031Z"
+    },
+    {
+      "id": "PAT-1792946752499-978",
+      "name": "Unified Intake Patient",
+      "age": 48,
+      "dob": null,
+      "gender": "Male",
+      "contactNumber": "555-8900",
+      "medicalAlerts": "Asthma",
+      "createdAt": "2026-10-25T16:45:52.499Z"
+    }
+  ],
+  "patientVisits": [
+    {
+      "id": "VIS-1792944603225-554",
+      "patientId": "PAT-1792944603212-603",
+      "registrationTimestamp": "2026-10-25T16:10:03.225Z",
+      "currentState": "Admitted",
+      "triageAssessmentId": "TRG-1792944603231-967",
+      "queueEntryId": "Q-1792944603231-137",
+      "assignedDoctorId": "DOC-101",
+      "consultationNotes": "STEMI confirmed. Transferred to ICU Bed 1 for catheterization.",
+      "visitOutcome": "Admitted",
+      "allocatedBedId": "BED-ICU-01",
+      "referralDetails": null,
+      "completionTimestamp": "2026-10-25T16:10:03.274Z",
+      "stateHistory": [
+        {
+          "fromState": null,
+          "toState": "Registered",
+          "timestamp": "2026-10-25T16:10:03.225Z",
+          "action": "VISIT_CREATED",
+          "note": "Patient visit initiated."
+        },
+        {
+          "fromState": "Registered",
+          "toState": "Awaiting Triage",
+          "timestamp": "2026-10-25T16:10:03.225Z",
+          "action": "await_triage",
+          "note": "Reason: Acute substernal chest heaviness"
+        },
+        {
+          "fromState": "Awaiting Triage",
+          "toState": "Waiting",
+          "timestamp": "2026-10-25T16:10:03.231Z",
+          "action": "complete_triage",
+          "note": "Triage complete. Category: Emergency (Priority 1). Severity: 9."
+        },
+        {
+          "fromState": "Waiting",
+          "toState": "Called",
+          "timestamp": "2026-10-25T16:10:03.249Z",
+          "action": "call_patient",
+          "note": "Called to consultation room by Dr. Sarah Jenkins."
+        },
+        {
+          "fromState": "Called",
+          "toState": "In Consultation",
+          "timestamp": "2026-10-25T16:10:03.262Z",
+          "action": "start_consultation",
+          "note": "Consultation started with Dr. Sarah Jenkins."
+        },
+        {
+          "fromState": "In Consultation",
+          "toState": "Admitted",
+          "timestamp": "2026-10-25T16:10:03.275Z",
+          "action": "admit",
+          "note": "Patient admitted to Bed BED-ICU-01 (ICU)."
+        }
+      ],
+      "logs": [
+        "[2026-10-25T16:10:03.225Z] Visit VIS-1792944603225-554 created in Registered state.",
+        "[2026-10-25T16:10:03.225Z] State changed from Registered to Awaiting Triage. Reason: Acute substernal chest heaviness",
+        "[2026-10-25T16:10:03.231Z] State changed from Awaiting Triage to Waiting. Triage complete. Category: Emergency (Priority 1). Severity: 9.",
+        "[2026-10-25T16:10:03.249Z] State changed from Waiting to Called. Called to consultation room by Dr. Sarah Jenkins.",
+        "[2026-10-25T16:10:03.262Z] State changed from Called to In Consultation. Consultation started with Dr. Sarah Jenkins.",
+        "[2026-10-25T16:10:03.275Z] State changed from In Consultation to Admitted. Patient admitted to Bed BED-ICU-01 (ICU)."
+      ]
+    },
+    {
+      "id": "VIS-1792945240041-839",
+      "patientId": "PAT-1792945240031-514",
+      "registrationTimestamp": "2026-10-25T16:20:40.041Z",
+      "currentState": "Awaiting Triage",
+      "triageAssessmentId": null,
+      "queueEntryId": null,
+      "assignedDoctorId": null,
+      "consultationNotes": "",
+      "visitOutcome": null,
+      "allocatedBedId": null,
+      "referralDetails": null,
+      "completionTimestamp": null,
+      "stateHistory": [
+        {
+          "fromState": null,
+          "toState": "Registered",
+          "timestamp": "2026-10-25T16:20:40.041Z",
+          "action": "VISIT_CREATED",
+          "note": "Patient visit initiated."
+        },
+        {
+          "fromState": "Registered",
+          "toState": "Awaiting Triage",
+          "timestamp": "2026-10-25T16:20:40.041Z",
+          "action": "await_triage",
+          "note": "Reason: cant take breathe properly"
+        }
+      ],
+      "logs": [
+        "[2026-10-25T16:20:40.041Z] Visit VIS-1792945240041-839 created in Registered state.",
+        "[2026-10-25T16:20:40.041Z] State changed from Registered to Awaiting Triage. Reason: cant take breathe properly"
+      ]
+    },
+    {
+      "id": "VIS-1792946752503-401",
+      "patientId": "PAT-1792946752499-978",
+      "registrationTimestamp": "2026-10-25T16:45:52.503Z",
+      "currentState": "Awaiting Triage",
+      "triageAssessmentId": null,
+      "queueEntryId": null,
+      "assignedDoctorId": null,
+      "consultationNotes": "",
+      "visitOutcome": null,
+      "allocatedBedId": null,
+      "referralDetails": null,
+      "completionTimestamp": null,
+      "stateHistory": [
+        {
+          "fromState": null,
+          "toState": "Registered",
+          "timestamp": "2026-10-25T16:45:52.503Z",
+          "action": "VISIT_CREATED",
+          "note": "Patient visit initiated."
+        },
+        {
+          "fromState": "Registered",
+          "toState": "Awaiting Triage",
+          "timestamp": "2026-10-25T16:45:52.504Z",
+          "action": "await_triage",
+          "note": "Reason: Acute chest tightness and wheezing"
+        }
+      ],
+      "logs": [
+        "[2026-10-25T16:45:52.503Z] Visit VIS-1792946752503-401 created in Registered state.",
+        "[2026-10-25T16:45:52.504Z] State changed from Registered to Awaiting Triage. Reason: Acute chest tightness and wheezing"
+      ]
+    }
+  ],
+  "triageAssessments": [
+    {
+      "id": "TRG-1792944603231-967",
+      "visitId": "VIS-1792944603225-554",
+      "chiefComplaint": "Acute chest pain radiating to left jaw",
+      "symptoms": [
+        "Chest pain",
+        "Diaphoresis",
+        "Dyspnea"
+      ],
+      "temperature": 37.2,
+      "heartRate": 115,
+      "bloodPressure": "170/105",
+      "respiratoryRate": 22,
+      "oxygenSaturation": 90,
+      "triageCategory": "Emergency",
+      "severityScore": 9,
+      "priorityLevel": 1,
+      "clinicalAlerts": [
+        "Critical SpO2: 90% is below safe oxygenation threshold (92%)."
+      ],
+      "clinicalNotes": "SpO2 90% triggers red flag alert. Oxygen administered.",
+      "assessedByStaffId": "NURSE-01",
+      "assessmentTimestamp": "2026-10-25T16:10:03.231Z"
+    }
+  ],
+  "queueEntries": [
+    {
+      "id": "Q-1792944603231-137",
+      "patientVisitId": "VIS-1792944603225-554",
+      "patientId": "PAT-1792944603212-603",
+      "triagePriority": 1,
+      "queueEntryTimestamp": "2026-10-25T16:10:03.231Z",
+      "queueStatus": "Completed",
+      "calledTimestamp": "2026-10-25T16:10:03.249Z",
+      "assignedDoctorId": "DOC-101"
+    }
+  ],
+  "doctors": [
+    {
+      "id": "DOC-101",
+      "name": "Dr. Sarah Jenkins",
+      "specialty": "Emergency Medicine",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-102",
+      "name": "Dr. Marcus Vance",
+      "specialty": "General Medicine",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-103",
+      "name": "Dr. Elena Rostova",
+      "specialty": "Cardiology",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-104",
+      "name": "Dr. David Kim",
+      "specialty": "Trauma & Surgery",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-105",
+      "name": "Dr. Priya Patel",
+      "specialty": "Pediatrics",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-106",
+      "name": "Dr. Arthur Pendelton",
+      "specialty": "Internal Medicine",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    }
+  ],
+  "beds": [
+    {
+      "id": "BED-ICU-01",
+      "ward": "ICU",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 2500
+    },
+    {
+      "id": "BED-ICU-02",
+      "ward": "ICU",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 2500
+    },
+    {
+      "id": "BED-EMERG-01",
+      "ward": "Emergency Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 1200
+    },
+    {
+      "id": "BED-EMERG-02",
+      "ward": "Emergency Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 1200
+    },
+    {
+      "id": "BED-GW-101",
+      "ward": "General Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 600
+    },
+    {
+      "id": "BED-GW-102",
+      "ward": "General Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 600
+    },
+    {
+      "id": "BED-GW-103",
+      "ward": "General Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 600
+    },
+    {
+      "id": "BED-PR-201",
+      "ward": "Private Room",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 1800
+    },
+    {
+      "id": "BED-PR-202",
+      "ward": "Private Room",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 1800
+    }
+  ]
+}

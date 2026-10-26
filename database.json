@@ -1,0 +1,723 @@
+{
+  "patients": [
+    {
+      "id": "PAT-1792991512448-259",
+      "name": "Rajesh Sharma",
+      "age": 58,
+      "dob": null,
+      "gender": "Male",
+      "contactNumber": "9876543210",
+      "medicalAlerts": "",
+      "createdAt": "2026-10-26T05:11:52.448Z"
+    },
+    {
+      "id": "PAT-1792991568488-846",
+      "name": "Meera nair",
+      "age": 34,
+      "dob": null,
+      "gender": "Female",
+      "contactNumber": "9876452310",
+      "medicalAlerts": "",
+      "createdAt": "2026-10-26T05:12:48.488Z"
+    },
+    {
+      "id": "PAT-1792991632219-310",
+      "name": "Amit verma",
+      "age": 27,
+      "dob": null,
+      "gender": "Male",
+      "contactNumber": "9785432160",
+      "medicalAlerts": "",
+      "createdAt": "2026-10-26T05:13:52.219Z"
+    },
+    {
+      "id": "PAT-1792992855016-522",
+      "name": "Vikram Mehta",
+      "age": 62,
+      "dob": null,
+      "gender": "Male",
+      "contactNumber": "9988776655",
+      "medicalAlerts": "",
+      "createdAt": "2026-10-26T05:34:15.016Z"
+    },
+    {
+      "id": "PAT-1792992879760-807",
+      "name": "Vikram Mehta",
+      "age": 62,
+      "dob": null,
+      "gender": "Male",
+      "contactNumber": "9988776655",
+      "medicalAlerts": "",
+      "createdAt": "2026-10-26T05:34:39.760Z"
+    }
+  ],
+  "patientVisits": [
+    {
+      "id": "VIS-1792991512456-862",
+      "patientId": "PAT-1792991512448-259",
+      "registrationTimestamp": "2026-10-26T05:11:52.456Z",
+      "currentState": "Completed",
+      "triageAssessmentId": "TRG-1792991512465-766",
+      "queueEntryId": "Q-1792991512465-159",
+      "assignedDoctorId": "DOC-103",
+      "consultationNotes": "keep in ventilator",
+      "visitOutcome": "Completed",
+      "allocatedBedId": null,
+      "referralDetails": null,
+      "completionTimestamp": "2026-10-26T05:15:28.810Z",
+      "stateHistory": [
+        {
+          "fromState": null,
+          "toState": "Registered",
+          "timestamp": "2026-10-26T05:11:52.456Z",
+          "action": "VISIT_CREATED",
+          "note": "Patient visit initiated."
+        },
+        {
+          "fromState": "Registered",
+          "toState": "Awaiting Triage",
+          "timestamp": "2026-10-26T05:11:52.457Z",
+          "action": "await_triage",
+          "note": "Reason: Severe crushing chest pain, sweating, shortness of breath"
+        },
+        {
+          "fromState": "Awaiting Triage",
+          "toState": "Waiting",
+          "timestamp": "2026-10-26T05:11:52.465Z",
+          "action": "complete_triage",
+          "note": "Triage complete. Category: Emergency (Priority 1). Severity: 7."
+        },
+        {
+          "fromState": "Waiting",
+          "toState": "Called",
+          "timestamp": "2026-10-26T05:15:04.342Z",
+          "action": "call_patient",
+          "note": "Called to consultation room by Dr. Elena Rostova."
+        },
+        {
+          "fromState": "Called",
+          "toState": "In Consultation",
+          "timestamp": "2026-10-26T05:15:13.835Z",
+          "action": "start_consultation",
+          "note": "Consultation started with Dr. Elena Rostova."
+        },
+        {
+          "fromState": "In Consultation",
+          "toState": "Completed",
+          "timestamp": "2026-10-26T05:15:28.810Z",
+          "action": "complete",
+          "note": "Consultation concluded; patient discharged with outpatient prescription."
+        }
+      ],
+      "logs": [
+        "[2026-10-26T05:11:52.456Z] Visit VIS-1792991512456-862 created in Registered state.",
+        "[2026-10-26T05:11:52.457Z] State changed from Registered to Awaiting Triage. Reason: Severe crushing chest pain, sweating, shortness of breath",
+        "[2026-10-26T05:11:52.465Z] State changed from Awaiting Triage to Waiting. Triage complete. Category: Emergency (Priority 1). Severity: 7.",
+        "[2026-10-26T05:15:04.342Z] State changed from Waiting to Called. Called to consultation room by Dr. Elena Rostova.",
+        "[2026-10-26T05:15:13.835Z] State changed from Called to In Consultation. Consultation started with Dr. Elena Rostova.",
+        "[2026-10-26T05:15:28.810Z] State changed from In Consultation to Completed. Consultation concluded; patient discharged with outpatient prescription.",
+        "[State Transition] Advanced from Consultation to Discharged (Outpatient resolved)."
+      ]
+    },
+    {
+      "id": "VIS-1792991568494-157",
+      "patientId": "PAT-1792991568488-846",
+      "registrationTimestamp": "2026-10-26T05:12:48.494Z",
+      "currentState": "Admitted",
+      "triageAssessmentId": "TRG-1792991568502-62",
+      "queueEntryId": "Q-1792991568502-707",
+      "assignedDoctorId": "DOC-107",
+      "consultationNotes": "keep in bed\nAdmission Note: ",
+      "visitOutcome": "Admitted",
+      "allocatedBedId": "BED-ICU-01",
+      "referralDetails": null,
+      "completionTimestamp": "2026-10-26T05:16:09.033Z",
+      "stateHistory": [
+        {
+          "fromState": null,
+          "toState": "Registered",
+          "timestamp": "2026-10-26T05:12:48.494Z",
+          "action": "VISIT_CREATED",
+          "note": "Patient visit initiated."
+        },
+        {
+          "fromState": "Registered",
+          "toState": "Awaiting Triage",
+          "timestamp": "2026-10-26T05:12:48.494Z",
+          "action": "await_triage",
+          "note": "Reason: Acute severe asthma attack, breathless, wheezing"
+        },
+        {
+          "fromState": "Awaiting Triage",
+          "toState": "Waiting",
+          "timestamp": "2026-10-26T05:12:48.502Z",
+          "action": "complete_triage",
+          "note": "Triage complete. Category: Urgent (Priority 2). Severity: 5."
+        },
+        {
+          "fromState": "Waiting",
+          "toState": "Called",
+          "timestamp": "2026-10-26T05:15:51.174Z",
+          "action": "call_patient",
+          "note": "Called to consultation room by Dr. Robert Hayes."
+        },
+        {
+          "fromState": "Called",
+          "toState": "In Consultation",
+          "timestamp": "2026-10-26T05:15:54.292Z",
+          "action": "start_consultation",
+          "note": "Consultation started with Dr. Robert Hayes."
+        },
+        {
+          "fromState": "In Consultation",
+          "toState": "Admitted",
+          "timestamp": "2026-10-26T05:16:09.033Z",
+          "action": "admit",
+          "note": "Patient admitted to Bed BED-ICU-01 (ICU)."
+        }
+      ],
+      "logs": [
+        "[2026-10-26T05:12:48.494Z] Visit VIS-1792991568494-157 created in Registered state.",
+        "[2026-10-26T05:12:48.494Z] State changed from Registered to Awaiting Triage. Reason: Acute severe asthma attack, breathless, wheezing",
+        "[2026-10-26T05:12:48.502Z] State changed from Awaiting Triage to Waiting. Triage complete. Category: Urgent (Priority 2). Severity: 5.",
+        "[2026-10-26T05:15:51.174Z] State changed from Waiting to Called. Called to consultation room by Dr. Robert Hayes.",
+        "[2026-10-26T05:15:54.292Z] State changed from Called to In Consultation. Consultation started with Dr. Robert Hayes.",
+        "[2026-10-26T05:16:09.033Z] State changed from In Consultation to Admitted. Patient admitted to Bed BED-ICU-01 (ICU).",
+        "[State Transition] Advanced from Consultation to Admitted for inpatient care."
+      ]
+    },
+    {
+      "id": "VIS-1792991632226-595",
+      "patientId": "PAT-1792991632219-310",
+      "registrationTimestamp": "2026-10-26T05:13:52.226Z",
+      "currentState": "Completed",
+      "triageAssessmentId": "TRG-1792991632231-279",
+      "queueEntryId": "Q-1792991632232-187",
+      "assignedDoctorId": "DOC-109",
+      "consultationNotes": "Ankle ligament sprain confirmed. Prescribed cold compression and NSAIDs for 5 days.",
+      "visitOutcome": "Completed",
+      "allocatedBedId": null,
+      "referralDetails": null,
+      "completionTimestamp": "2026-10-26T05:34:00.617Z",
+      "stateHistory": [
+        {
+          "fromState": null,
+          "toState": "Registered",
+          "timestamp": "2026-10-26T05:13:52.226Z",
+          "action": "VISIT_CREATED",
+          "note": "Patient visit initiated."
+        },
+        {
+          "fromState": "Registered",
+          "toState": "Awaiting Triage",
+          "timestamp": "2026-10-26T05:13:52.226Z",
+          "action": "await_triage",
+          "note": "Reason: Ankle joint pain, swelling, sprain after running"
+        },
+        {
+          "fromState": "Awaiting Triage",
+          "toState": "Waiting",
+          "timestamp": "2026-10-26T05:13:52.232Z",
+          "action": "complete_triage",
+          "note": "Triage complete. Category: Standard (Priority 3). Severity: 3."
+        },
+        {
+          "fromState": "Waiting",
+          "toState": "Called",
+          "timestamp": "2026-10-26T05:16:54.712Z",
+          "action": "call_patient",
+          "note": "Called to consultation room by Dr. Jonathan Lee."
+        },
+        {
+          "fromState": "Called",
+          "toState": "In Consultation",
+          "timestamp": "2026-10-26T05:17:03.846Z",
+          "action": "start_consultation",
+          "note": "Consultation started with Dr. Jonathan Lee."
+        },
+        {
+          "fromState": "In Consultation",
+          "toState": "Completed",
+          "timestamp": "2026-10-26T05:34:00.617Z",
+          "action": "complete",
+          "note": "Consultation concluded; patient discharged with outpatient prescription."
+        }
+      ],
+      "logs": [
+        "[2026-10-26T05:13:52.226Z] Visit VIS-1792991632226-595 created in Registered state.",
+        "[2026-10-26T05:13:52.226Z] State changed from Registered to Awaiting Triage. Reason: Ankle joint pain, swelling, sprain after running",
+        "[2026-10-26T05:13:52.232Z] State changed from Awaiting Triage to Waiting. Triage complete. Category: Standard (Priority 3). Severity: 3.",
+        "[2026-10-26T05:16:54.712Z] State changed from Waiting to Called. Called to consultation room by Dr. Jonathan Lee.",
+        "[2026-10-26T05:17:03.846Z] State changed from Called to In Consultation. Consultation started with Dr. Jonathan Lee.",
+        "[2026-10-26T05:34:00.617Z] State changed from In Consultation to Completed. Consultation concluded; patient discharged with outpatient prescription.",
+        "[State Transition] Advanced from Consultation to Discharged (Outpatient resolved)."
+      ]
+    },
+    {
+      "id": "VIS-1792992855029-902",
+      "patientId": "PAT-1792992855016-522",
+      "registrationTimestamp": "2026-10-26T05:34:15.029Z",
+      "currentState": "Waiting",
+      "triageAssessmentId": "TRG-1792992855035-405",
+      "queueEntryId": "Q-1792992855035-880",
+      "assignedDoctorId": "DOC-103",
+      "consultationNotes": "",
+      "visitOutcome": null,
+      "allocatedBedId": null,
+      "referralDetails": null,
+      "completionTimestamp": null,
+      "stateHistory": [
+        {
+          "fromState": null,
+          "toState": "Registered",
+          "timestamp": "2026-10-26T05:34:15.029Z",
+          "action": "VISIT_CREATED",
+          "note": "Patient visit initiated."
+        },
+        {
+          "fromState": "Registered",
+          "toState": "Awaiting Triage",
+          "timestamp": "2026-10-26T05:34:15.029Z",
+          "action": "await_triage",
+          "note": "Reason: Severe cardiac discomfort"
+        },
+        {
+          "fromState": "Awaiting Triage",
+          "toState": "Waiting",
+          "timestamp": "2026-10-26T05:34:15.035Z",
+          "action": "complete_triage",
+          "note": "Triage complete. Category: Emergency (Priority 1). Severity: 7."
+        }
+      ],
+      "logs": [
+        "[2026-10-26T05:34:15.029Z] Visit VIS-1792992855029-902 created in Registered state.",
+        "[2026-10-26T05:34:15.029Z] State changed from Registered to Awaiting Triage. Reason: Severe cardiac discomfort",
+        "[2026-10-26T05:34:15.035Z] State changed from Awaiting Triage to Waiting. Triage complete. Category: Emergency (Priority 1). Severity: 7."
+      ]
+    },
+    {
+      "id": "VIS-1792992879772-151",
+      "patientId": "PAT-1792992879760-807",
+      "registrationTimestamp": "2026-10-26T05:34:39.772Z",
+      "currentState": "Admitted",
+      "triageAssessmentId": "TRG-1792992879778-893",
+      "queueEntryId": "Q-1792992879778-739",
+      "assignedDoctorId": "DOC-103",
+      "consultationNotes": "",
+      "visitOutcome": "Admitted",
+      "allocatedBedId": "BED-ICU-02",
+      "referralDetails": null,
+      "completionTimestamp": "2026-10-26T05:35:18.797Z",
+      "stateHistory": [
+        {
+          "fromState": null,
+          "toState": "Registered",
+          "timestamp": "2026-10-26T05:34:39.772Z",
+          "action": "VISIT_CREATED",
+          "note": "Patient visit initiated."
+        },
+        {
+          "fromState": "Registered",
+          "toState": "Awaiting Triage",
+          "timestamp": "2026-10-26T05:34:39.772Z",
+          "action": "await_triage",
+          "note": "Reason: Severe cardiac discomfort"
+        },
+        {
+          "fromState": "Awaiting Triage",
+          "toState": "Waiting",
+          "timestamp": "2026-10-26T05:34:39.778Z",
+          "action": "complete_triage",
+          "note": "Triage complete. Category: Emergency (Priority 1). Severity: 7."
+        },
+        {
+          "fromState": "Waiting",
+          "toState": "Called",
+          "timestamp": "2026-10-26T05:34:51.174Z",
+          "action": "call_patient",
+          "note": "Called to consultation room by Dr. Elena Rostova."
+        },
+        {
+          "fromState": "Called",
+          "toState": "In Consultation",
+          "timestamp": "2026-10-26T05:34:51.189Z",
+          "action": "start_consultation",
+          "note": "Consultation started with Dr. Elena Rostova."
+        },
+        {
+          "fromState": "In Consultation",
+          "toState": "Admitted",
+          "timestamp": "2026-10-26T05:35:18.797Z",
+          "action": "admit",
+          "note": "Patient admitted to Bed BED-ICU-02 (ICU)."
+        }
+      ],
+      "logs": [
+        "[2026-10-26T05:34:39.772Z] Visit VIS-1792992879772-151 created in Registered state.",
+        "[2026-10-26T05:34:39.772Z] State changed from Registered to Awaiting Triage. Reason: Severe cardiac discomfort",
+        "[2026-10-26T05:34:39.778Z] State changed from Awaiting Triage to Waiting. Triage complete. Category: Emergency (Priority 1). Severity: 7.",
+        "[2026-10-26T05:34:51.174Z] State changed from Waiting to Called. Called to consultation room by Dr. Elena Rostova.",
+        "[2026-10-26T05:34:51.189Z] State changed from Called to In Consultation. Consultation started with Dr. Elena Rostova.",
+        "[2026-10-26T05:35:18.797Z] State changed from In Consultation to Admitted. Patient admitted to Bed BED-ICU-02 (ICU).",
+        "[State Transition] Advanced from Consultation to Admitted for inpatient care."
+      ]
+    }
+  ],
+  "triageAssessments": [
+    {
+      "id": "TRG-1792991512465-766",
+      "visitId": "VIS-1792991512456-862",
+      "chiefComplaint": "Severe crushing chest pain, sweating, shortness of breath",
+      "symptoms": [
+        "Severe crushing chest pain, sweating, shortness of breath"
+      ],
+      "temperature": 37.2,
+      "heartRate": 135,
+      "bloodPressure": "190/110",
+      "respiratoryRate": 32,
+      "oxygenSaturation": 88,
+      "triageCategory": "Emergency",
+      "severityScore": 7,
+      "priorityLevel": 1,
+      "clinicalAlerts": [
+        "Critical SpO2: 88% is below safe oxygenation threshold (92%).",
+        "Abnormal Heart Rate: 135 bpm.",
+        "Hypertensive Crisis Alert: 190/110 mmHg."
+      ],
+      "clinicalNotes": "",
+      "assessedByStaffId": "NURSE-TRIAGE",
+      "assessmentTimestamp": "2026-10-26T05:11:52.465Z"
+    },
+    {
+      "id": "TRG-1792991568502-62",
+      "visitId": "VIS-1792991568494-157",
+      "chiefComplaint": "Acute severe asthma attack, breathless, wheezing",
+      "symptoms": [
+        "Acute severe asthma attack, breathless, wheezing"
+      ],
+      "temperature": 38.7,
+      "heartRate": 116,
+      "bloodPressure": "135/88",
+      "respiratoryRate": 26,
+      "oxygenSaturation": 92,
+      "triageCategory": "Urgent",
+      "severityScore": 5,
+      "priorityLevel": 2,
+      "clinicalAlerts": [],
+      "clinicalNotes": "",
+      "assessedByStaffId": "NURSE-TRIAGE",
+      "assessmentTimestamp": "2026-10-26T05:12:48.502Z"
+    },
+    {
+      "id": "TRG-1792991632231-279",
+      "visitId": "VIS-1792991632226-595",
+      "chiefComplaint": "Ankle joint pain, swelling, sprain after running",
+      "symptoms": [
+        "Ankle joint pain, swelling, sprain after running"
+      ],
+      "temperature": 37.6,
+      "heartRate": 98,
+      "bloodPressure": "122/80",
+      "respiratoryRate": 18,
+      "oxygenSaturation": 98,
+      "triageCategory": "Standard",
+      "severityScore": 3,
+      "priorityLevel": 3,
+      "clinicalAlerts": [],
+      "clinicalNotes": "",
+      "assessedByStaffId": "NURSE-TRIAGE",
+      "assessmentTimestamp": "2026-10-26T05:13:52.231Z"
+    },
+    {
+      "id": "TRG-1792992855035-405",
+      "visitId": "VIS-1792992855029-902",
+      "chiefComplaint": "Chest tightness radiating to left arm",
+      "symptoms": [],
+      "temperature": null,
+      "heartRate": 132,
+      "bloodPressure": "175/105",
+      "respiratoryRate": null,
+      "oxygenSaturation": 89,
+      "triageCategory": "Emergency",
+      "severityScore": 7,
+      "priorityLevel": 1,
+      "clinicalAlerts": [
+        "Critical SpO2: 89% is below safe oxygenation threshold (92%).",
+        "Abnormal Heart Rate: 132 bpm."
+      ],
+      "clinicalNotes": "",
+      "assessedByStaffId": "STAFF-TRIAGE",
+      "assessmentTimestamp": "2026-10-26T05:34:15.035Z"
+    },
+    {
+      "id": "TRG-1792992879778-893",
+      "visitId": "VIS-1792992879772-151",
+      "chiefComplaint": "Chest tightness radiating to left arm",
+      "symptoms": [],
+      "temperature": null,
+      "heartRate": 132,
+      "bloodPressure": "175/105",
+      "respiratoryRate": null,
+      "oxygenSaturation": 89,
+      "triageCategory": "Emergency",
+      "severityScore": 7,
+      "priorityLevel": 1,
+      "clinicalAlerts": [
+        "Critical SpO2: 89% is below safe oxygenation threshold (92%).",
+        "Abnormal Heart Rate: 132 bpm."
+      ],
+      "clinicalNotes": "",
+      "assessedByStaffId": "STAFF-TRIAGE",
+      "assessmentTimestamp": "2026-10-26T05:34:39.778Z"
+    }
+  ],
+  "queueEntries": [
+    {
+      "id": "Q-1792991512465-159",
+      "patientVisitId": "VIS-1792991512456-862",
+      "patientId": "PAT-1792991512448-259",
+      "triagePriority": 1,
+      "queueEntryTimestamp": "2026-10-26T05:11:52.466Z",
+      "queueStatus": "Completed",
+      "calledTimestamp": "2026-10-26T05:15:04.342Z",
+      "assignedDoctorId": "DOC-103"
+    },
+    {
+      "id": "Q-1792991568502-707",
+      "patientVisitId": "VIS-1792991568494-157",
+      "patientId": "PAT-1792991568488-846",
+      "triagePriority": 2,
+      "queueEntryTimestamp": "2026-10-26T05:12:48.502Z",
+      "queueStatus": "Completed",
+      "calledTimestamp": "2026-10-26T05:15:51.174Z",
+      "assignedDoctorId": "DOC-107"
+    },
+    {
+      "id": "Q-1792991632232-187",
+      "patientVisitId": "VIS-1792991632226-595",
+      "patientId": "PAT-1792991632219-310",
+      "triagePriority": 3,
+      "queueEntryTimestamp": "2026-10-26T05:13:52.232Z",
+      "queueStatus": "Completed",
+      "calledTimestamp": "2026-10-26T05:16:54.712Z",
+      "assignedDoctorId": "DOC-109"
+    },
+    {
+      "id": "Q-1792992855035-880",
+      "patientVisitId": "VIS-1792992855029-902",
+      "patientId": "PAT-1792992855016-522",
+      "triagePriority": 1,
+      "queueEntryTimestamp": "2026-10-26T05:34:15.035Z",
+      "queueStatus": "Waiting",
+      "calledTimestamp": null,
+      "assignedDoctorId": "DOC-103"
+    },
+    {
+      "id": "Q-1792992879778-739",
+      "patientVisitId": "VIS-1792992879772-151",
+      "patientId": "PAT-1792992879760-807",
+      "triagePriority": 1,
+      "queueEntryTimestamp": "2026-10-26T05:34:39.778Z",
+      "queueStatus": "Completed",
+      "calledTimestamp": "2026-10-26T05:34:51.174Z",
+      "assignedDoctorId": "DOC-103"
+    }
+  ],
+  "doctors": [
+    {
+      "id": "DOC-101",
+      "name": "Dr. Sarah Jenkins",
+      "specialty": "Emergency Medicine",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-102",
+      "name": "Dr. Marcus Vance",
+      "specialty": "General Medicine",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-103",
+      "name": "Dr. Elena Rostova",
+      "specialty": "Cardiology",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-104",
+      "name": "Dr. David Kim",
+      "specialty": "Trauma & Surgery",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-105",
+      "name": "Dr. Priya Patel",
+      "specialty": "Pediatrics",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-106",
+      "name": "Dr. Arthur Pendelton",
+      "specialty": "Internal Medicine",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-107",
+      "name": "Dr. Robert Hayes",
+      "specialty": "Pulmonology",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-108",
+      "name": "Dr. Meera Iyer",
+      "specialty": "Neurology",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    },
+    {
+      "id": "DOC-109",
+      "name": "Dr. Jonathan Lee",
+      "specialty": "Orthopedics",
+      "availabilityStatus": "Available",
+      "currentVisitId": null
+    }
+  ],
+  "beds": [
+    {
+      "id": "BED-ICU-01",
+      "ward": "ICU",
+      "availabilityStatus": "Occupied",
+      "allocatedVisitId": "VIS-1792991568494-157",
+      "dailyRate": 2500
+    },
+    {
+      "id": "BED-ICU-02",
+      "ward": "ICU",
+      "availabilityStatus": "Occupied",
+      "allocatedVisitId": "VIS-1792992879772-151",
+      "dailyRate": 2500
+    },
+    {
+      "id": "BED-EMERG-01",
+      "ward": "Emergency Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 1200
+    },
+    {
+      "id": "BED-EMERG-02",
+      "ward": "Emergency Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 1200
+    },
+    {
+      "id": "BED-GW-101",
+      "ward": "General Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 600
+    },
+    {
+      "id": "BED-GW-102",
+      "ward": "General Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 600
+    },
+    {
+      "id": "BED-GW-103",
+      "ward": "General Ward",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 600
+    },
+    {
+      "id": "BED-PR-201",
+      "ward": "Private Room",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 1800
+    },
+    {
+      "id": "BED-PR-202",
+      "ward": "Private Room",
+      "availabilityStatus": "Available",
+      "allocatedVisitId": null,
+      "dailyRate": 1800
+    }
+  ],
+  "bills": [
+    {
+      "id": "INV-1792992840622-857",
+      "visitId": "VIS-1792991632226-595",
+      "patientId": "PAT-1792991632219-310",
+      "billType": "Outpatient Consultation",
+      "issuedAt": "2026-10-26T05:34:00.622Z",
+      "status": "Paid",
+      "paymentMethod": "Cash / Health Card",
+      "items": [
+        {
+          "description": "Specialist Physician Consultation Fee",
+          "amount": 500,
+          "quantity": 1,
+          "total": 500
+        },
+        {
+          "description": "Pharmacy & Medical Dispensary Baseline",
+          "amount": 350,
+          "quantity": 1,
+          "total": 350
+        }
+      ],
+      "subtotal": 850,
+      "subsidyDiscount": 128,
+      "totalPayable": 722,
+      "wardRate": 0,
+      "durationDays": 0,
+      "ward": null
+    },
+    {
+      "id": "INV-1792992918801-141",
+      "visitId": "VIS-1792992879772-151",
+      "patientId": "PAT-1792992879760-807",
+      "billType": "Inpatient Ward Admission",
+      "issuedAt": "2026-10-26T05:35:18.801Z",
+      "status": "Paid",
+      "paymentMethod": "Hospital Inpatient Account",
+      "items": [
+        {
+          "description": "Inpatient Bed Tariff (ICU @ ₹2500/day)",
+          "amount": 2500,
+          "quantity": 4,
+          "total": 10000
+        },
+        {
+          "description": "Admission Consultation & Supervision Fee",
+          "amount": 500,
+          "quantity": 1,
+          "total": 500
+        },
+        {
+          "description": "Inpatient Pharmacy & Dispensary Supplies",
+          "amount": 350,
+          "quantity": 1,
+          "total": 350
+        }
+      ],
+      "subtotal": 10850,
+      "subsidyDiscount": 1628,
+      "totalPayable": 9222,
+      "wardRate": 2500,
+      "durationDays": 4,
+      "ward": "ICU",
+      "settledAt": "2026-10-26T05:35:49.862Z"
+    }
+  ]
+}

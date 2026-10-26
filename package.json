@@ -1,0 +1,26 @@
+{
+  "name": "hospital-queue-management",
+  "version": "1.0.0",
+  "description": "Hospital Queue and Triage Management System using Factory, Facade, and State design patterns",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "node js/test.js",
+    "inspect": "node inspect_db.js",
+    "repair": "node repair_db.js"
+  },
+  "keywords": [
+    "hospital",
+    "triage",
+    "queue",
+    "design-patterns",
+    "factory-pattern",
+    "facade-pattern",
+    "state-pattern"
+  ],
+  "author": "Hospital Engineering Team",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
